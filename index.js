@@ -3,7 +3,12 @@ const { API_PORT, MONGO_DB } = process.env;
 const server = require('./src/server.js');
 const mongoose = require('mongoose');
 
-mongoose.connect(MONGO_DB)
+const connectionString = MONGO_DB;
+
+mongoose.connect(connectionString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
 .then(()=>{
     console.log('database connected.');
     server.listen(API_PORT, (error) => {

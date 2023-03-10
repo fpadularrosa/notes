@@ -16,11 +16,13 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
-        minLength: 7,
-        maxLength: 100
+        minLength: 8,
+        maxLength: 60
     },
-    notes: {
-        type: Array
+    gender: {
+        type: String,
+        enum: ['Male', 'Female', 'Non-Binarie'],
+        required: true
     },
     tokenResetPassword:{
         type: String,
@@ -31,9 +33,10 @@ const userSchema = new Schema({
 const User = model('User', userSchema);
 
 const joiUserSchema = Joi.object({
-    email: Joi.string().required().max(60),
-    password: Joi.string().required().min(8).max(100),
-    name: Joi.string().required().min(4).max(35)
+    email: Joi.string().required().email().max(60),
+    password: Joi.string().required().empty('').min(8).max(60),
+    name: Joi.string().required().min(4).max(35),
+    gender: Joi.string().required().min(4).max(11)
 });
 
 module.exports = { User, joiUserSchema };
